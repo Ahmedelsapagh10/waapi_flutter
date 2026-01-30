@@ -94,3 +94,21 @@ await client.rebootInstance();
 ## Contributing
 
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+
+---
+
+## Author
+
+**Eng Ahmed Mohamed Elsapagh**
+
+Senior Flutter Developer with 4+ years of experience specializing in Tracking Apps, E-learning, and Flutter Web. Currently working at DomApp on building inspection compliance apps for Saudi Arabia. Key projects include Elmazoon (13k+ students) and 6+ freelance apps serving 20k+ users.
+
+- 🌐 **Portfolio**: [elsapagh.octopusteam.net](https://elsapagh.octopusteam.net/)
+- 💼 **Role**: Co-founder & Mobile Lead at [Octopus Team](https://octopusteam.net)
+- 🎓 **Instructor**: Flutter Developer & Tech Content Creator
+
+---
+
+## License
+
+MIT License - see [LICENSE](LICENSE) for details.

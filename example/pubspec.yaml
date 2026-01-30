@@ -32,8 +32,7 @@ dependencies:
     sdk: flutter
   waapi_flutter:
     path: ../
-  # flutter_contacts, permission_handler, file_picker, record, path_provider, audioplayers removed per user request.
-  file_picker: ^8.1.7
+  # Flutter contacts, file_picker, record, etc. removed - API only supports URL-based media.
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

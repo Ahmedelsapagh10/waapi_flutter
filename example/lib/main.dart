@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:waapi_flutter/waapi_flutter.dart';
 import 'app_constants.dart';
 
@@ -78,10 +77,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final _baseUrlController = TextEditingController(text: AppConstants.baseUrl);
-  final _appKeyController = TextEditingController(text: AppConstants.appKey);
-  final _authKeyController = TextEditingController(text: AppConstants.authKey);
-
   final _chatIdController = TextEditingController();
   final _messageController = TextEditingController();
   final _captionController = TextEditingController();
@@ -94,15 +89,8 @@ class _HomeScreenState extends State<HomeScreen> {
   String _selectedType = 'text';
   final List<String> _messageTypes = ['text', 'media'];
 
-  // File picker
-  String? _selectedFilePath;
-  String? _selectedFileName;
-
   @override
   void dispose() {
-    _baseUrlController.dispose();
-    _appKeyController.dispose();
-    _authKeyController.dispose();
     _chatIdController.dispose();
     _messageController.dispose();
     _captionController.dispose();
@@ -110,43 +98,15 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _initClient() {
-    if (_appKeyController.text.isEmpty || _authKeyController.text.isEmpty) {
+    if (AppConstants.appKey.isEmpty || AppConstants.authKey.isEmpty) {
       _appendLog('⚠️ Error: App Key and Auth Key are required.');
       return;
     }
     _client = WaapiClient(
-      baseUrl: _baseUrlController.text,
-      appKey: _appKeyController.text,
-      authKey: _authKeyController.text,
+      baseUrl: AppConstants.baseUrl,
+      appKey: AppConstants.appKey,
+      authKey: AppConstants.authKey,
     );
-  }
-
-  Future<void> _pickFile() async {
-    try {
-      FilePickerResult? result = await FilePicker.platform.pickFiles(
-        type: FileType.custom,
-        allowedExtensions: [
-          'jpg',
-          'jpeg',
-          'png',
-          'gif',
-          'pdf',
-          'mp4',
-          'webp',
-          'doc',
-          'docx',
-        ],
-      );
-      if (result != null && result.files.single.path != null) {
-        setState(() {
-          _selectedFilePath = result.files.single.path;
-          _selectedFileName = result.files.single.name;
-        });
-        _appendLog('📎 Selected: $_selectedFileName');
-      }
-    } catch (e) {
-      _appendLog('❌ Error picking file: $e');
-    }
   }
 
   Future<void> _sendMessage() async {
@@ -175,28 +135,24 @@ class _HomeScreenState extends State<HomeScreen> {
           message: _messageController.text,
         );
       } else {
-        // Media type
-        if (_selectedFilePath == null && _messageController.text.isEmpty) {
-          _appendLog('⚠️ Select a file or provide a media URL.');
+        // Media type - URL only
+        if (_messageController.text.isEmpty) {
+          _appendLog('⚠️ Media URL is required.');
           setState(() => _isLoading = false);
           return;
         }
         response = await _client!.sendMedia(
           chatId: chatId,
-          filePath: _selectedFilePath,
-          mediaUrl: _selectedFilePath == null ? _messageController.text : null,
-          caption: _captionController.text,
-          filename: _selectedFileName,
+          mediaUrl: _messageController.text,
+          caption: _captionController.text.isNotEmpty
+              ? _captionController.text
+              : null,
         );
       }
 
       _appendLog('✅ Sent! Status: ${response.status}');
       _messageController.clear();
       _captionController.clear();
-      setState(() {
-        _selectedFilePath = null;
-        _selectedFileName = null;
-      });
     } catch (e) {
       _appendLog('❌ Error: $e');
     } finally {
@@ -337,8 +293,6 @@ class _HomeScreenState extends State<HomeScreen> {
                         onChanged: (value) {
                           setState(() {
                             _selectedType = value!;
-                            _selectedFilePath = null;
-                            _selectedFileName = null;
                           });
                         },
                       ),
@@ -360,7 +314,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           maxLines: 4,
                         ),
                       ] else ...[
-                        const SizedBox(height: 8),
+                        // Media Type - URL only
                         TextField(
                           controller: _messageController,
                           decoration: InputDecoration(
@@ -408,7 +362,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   children: [
                                     Icon(
                                       _selectedType == 'media'
-                                          ? Icons.upload_file
+                                          ? Icons.image
                                           : Icons.send_rounded,
                                       size: 20,
                                     ),
