@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:waapi_flutter/waapi_flutter.dart';
 import 'app_constants.dart';
 
@@ -83,10 +84,19 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final _chatIdController = TextEditingController();
   final _messageController = TextEditingController();
+  final _captionController = TextEditingController();
 
   String _log = '• Ready to send messages.';
   bool _isLoading = false;
   WaapiClient? _client;
+
+  // Message type selection
+  String _selectedType = 'text';
+  final List<String> _messageTypes = ['text', 'media'];
+
+  // File picker
+  String? _selectedFilePath;
+  String? _selectedFileName;
 
   @override
   void dispose() {
@@ -95,6 +105,7 @@ class _HomeScreenState extends State<HomeScreen> {
     _authKeyController.dispose();
     _chatIdController.dispose();
     _messageController.dispose();
+    _captionController.dispose();
     super.dispose();
   }
 
@@ -110,12 +121,40 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  Future<void> _pickFile() async {
+    try {
+      FilePickerResult? result = await FilePicker.platform.pickFiles(
+        type: FileType.custom,
+        allowedExtensions: [
+          'jpg',
+          'jpeg',
+          'png',
+          'gif',
+          'pdf',
+          'mp4',
+          'webp',
+          'doc',
+          'docx',
+        ],
+      );
+      if (result != null && result.files.single.path != null) {
+        setState(() {
+          _selectedFilePath = result.files.single.path;
+          _selectedFileName = result.files.single.name;
+        });
+        _appendLog('📎 Selected: $_selectedFileName');
+      }
+    } catch (e) {
+      _appendLog('❌ Error picking file: $e');
+    }
+  }
+
   Future<void> _sendMessage() async {
     if (_client == null) _initClient();
     if (_client == null) return;
 
-    if (_chatIdController.text.isEmpty || _messageController.text.isEmpty) {
-      _appendLog('⚠️ Chat ID and Message are required.');
+    if (_chatIdController.text.isEmpty) {
+      _appendLog('⚠️ Chat ID is required.');
       return;
     }
 
@@ -123,12 +162,41 @@ class _HomeScreenState extends State<HomeScreen> {
     final chatId = _chatIdController.text.trim();
 
     try {
-      final response = await _client!.sendText(
-        chatId: chatId,
-        message: _messageController.text,
-      );
+      WaapiResponse response;
+
+      if (_selectedType == 'text') {
+        if (_messageController.text.isEmpty) {
+          _appendLog('⚠️ Message text is required.');
+          setState(() => _isLoading = false);
+          return;
+        }
+        response = await _client!.sendText(
+          chatId: chatId,
+          message: _messageController.text,
+        );
+      } else {
+        // Media type
+        if (_selectedFilePath == null && _messageController.text.isEmpty) {
+          _appendLog('⚠️ Select a file or provide a media URL.');
+          setState(() => _isLoading = false);
+          return;
+        }
+        response = await _client!.sendMedia(
+          chatId: chatId,
+          filePath: _selectedFilePath,
+          mediaUrl: _selectedFilePath == null ? _messageController.text : null,
+          caption: _captionController.text,
+          filename: _selectedFileName,
+        );
+      }
+
       _appendLog('✅ Sent! Status: ${response.status}');
       _messageController.clear();
+      _captionController.clear();
+      setState(() {
+        _selectedFilePath = null;
+        _selectedFileName = null;
+      });
     } catch (e) {
       _appendLog('❌ Error: $e');
     } finally {
@@ -229,6 +297,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                       const SizedBox(height: 24),
+
+                      // Chat ID
                       TextField(
                         controller: _chatIdController,
                         decoration: InputDecoration(
@@ -243,19 +313,81 @@ class _HomeScreenState extends State<HomeScreen> {
                         keyboardType: TextInputType.emailAddress,
                       ),
                       const SizedBox(height: 16),
-                      TextField(
-                        controller: _messageController,
+
+                      // Message Type Dropdown
+                      DropdownButtonFormField<String>(
+                        value: _selectedType,
                         decoration: InputDecoration(
-                          labelText: 'Your Message',
-                          hintText: 'Type something...',
+                          labelText: 'Message Type',
                           prefixIcon: Icon(
-                            Icons.chat_bubble_outline,
+                            Icons.category_outlined,
                             color: Colors.grey.shade400,
                           ),
                           fillColor: const Color(0xFFF8F9FA),
+                          filled: true,
                         ),
-                        maxLines: 4,
+                        items: _messageTypes
+                            .map(
+                              (type) => DropdownMenuItem(
+                                value: type,
+                                child: Text(type.toUpperCase()),
+                              ),
+                            )
+                            .toList(),
+                        onChanged: (value) {
+                          setState(() {
+                            _selectedType = value!;
+                            _selectedFilePath = null;
+                            _selectedFileName = null;
+                          });
+                        },
                       ),
+                      const SizedBox(height: 16),
+
+                      // Dynamic Fields based on Type
+                      if (_selectedType == 'text') ...[
+                        TextField(
+                          controller: _messageController,
+                          decoration: InputDecoration(
+                            labelText: 'Your Message',
+                            hintText: 'Type something...',
+                            prefixIcon: Icon(
+                              Icons.chat_bubble_outline,
+                              color: Colors.grey.shade400,
+                            ),
+                            fillColor: const Color(0xFFF8F9FA),
+                          ),
+                          maxLines: 4,
+                        ),
+                      ] else ...[
+                        const SizedBox(height: 8),
+                        TextField(
+                          controller: _messageController,
+                          decoration: InputDecoration(
+                            labelText: 'Media URL',
+                            hintText: 'https://example.com/image.jpg',
+                            prefixIcon: Icon(
+                              Icons.link,
+                              color: Colors.grey.shade400,
+                            ),
+                            fillColor: const Color(0xFFF8F9FA),
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        TextField(
+                          controller: _captionController,
+                          decoration: InputDecoration(
+                            labelText: 'Caption (Optional)',
+                            hintText: 'Add a caption...',
+                            prefixIcon: Icon(
+                              Icons.short_text,
+                              color: Colors.grey.shade400,
+                            ),
+                            fillColor: const Color(0xFFF8F9FA),
+                          ),
+                        ),
+                      ],
+
                       const SizedBox(height: 24),
                       SizedBox(
                         width: double.infinity,
@@ -271,12 +403,21 @@ class _HomeScreenState extends State<HomeScreen> {
                                     strokeWidth: 2.5,
                                   ),
                                 )
-                              : const Row(
+                              : Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Icon(Icons.send_rounded, size: 20),
-                                    SizedBox(width: 8),
-                                    Text('Send Message'),
+                                    Icon(
+                                      _selectedType == 'media'
+                                          ? Icons.upload_file
+                                          : Icons.send_rounded,
+                                      size: 20,
+                                    ),
+                                    const SizedBox(width: 8),
+                                    Text(
+                                      _selectedType == 'media'
+                                          ? 'Send Media'
+                                          : 'Send Message',
+                                    ),
                                   ],
                                 ),
                         ),
