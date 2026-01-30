@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.1] - 2026-01-30
+
+### Changed
+- Updated Author section in README with profile avatar.
+
+---
+
 ## [0.0.1] - 2026-01-30
 
 ### Added

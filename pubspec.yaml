@@ -1,6 +1,6 @@
 name: waapi_flutter
 description: "A Flutter package for the Waapi WhatsApp Gateway API. Send text, media, stickers, voice notes, locations, contacts, and templates."
-version: 0.0.1
+version: 1.0.1
 homepage: https://waapi.octopusteam.net
 repository: https://github.com/octopus-software-team/waapi_flutter.git
 issue_tracker: https://github.com/octopus-software-team/waapi_flutter/issues

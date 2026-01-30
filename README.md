@@ -48,7 +48,7 @@ Add `waapi_flutter` to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  waapi_flutter: ^0.0.1
+  waapi_flutter: ^1.0.1
 ```
 
 Then run:
@@ -137,13 +137,16 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 
 ## Author
 
-**Eng Ahmed Mohamed Elsapagh**
+<p align="center">
+  <img src="assets/me3.webp" width="120" style="border-radius: 50%;" alt="Eng Ahmed Mohamed Elsapagh">
+</p>
 
-Senior Flutter Developer with 4+ years of experience specializing in Tracking Apps, E-learning, and Flutter Web. Currently working at DomApp on building inspection compliance apps for Saudi Arabia. Key projects include Elmazoon (13k+ students) and 6+ freelance apps serving 20k+ users.
+<p align="center">
+  <strong>Eng Ahmed Mohamed Elsapagh</strong>
+</p>
 
 - 🌐 **Portfolio**: [elsapagh.octopusteam.net](https://elsapagh.octopusteam.net/)
 - 💼 **Role**: Co-founder & Mobile Lead at [Octopus Team](https://octopusteam.net)
-- 🎓 **Instructor**: Flutter Developer & Tech Content Creator
 
 ---
 
