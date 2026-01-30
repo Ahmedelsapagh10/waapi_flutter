@@ -90,7 +90,16 @@ class WaapiContact {
   /// رقم هاتف جهة الاتصال.
   final String phoneNumber;
 
-  WaapiContact({required this.name, required this.phoneNumber});
+  /// The organization of the contact.
+  ///
+  /// مؤسسة جهة الاتصال.
+  final String? organization;
+
+  WaapiContact({
+    required this.name,
+    required this.phoneNumber,
+    this.organization,
+  });
 
   /// Generates a simple vCard string.
   ///
@@ -100,6 +109,7 @@ class WaapiContact {
         'VERSION:3.0\n'
         'FN:$name\n'
         'TEL;TYPE=CELL:$phoneNumber\n'
+        '${organization != null ? 'ORG:$organization\n' : ''}'
         'END:VCARD';
   }
 }

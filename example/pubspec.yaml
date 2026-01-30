@@ -32,9 +32,7 @@ dependencies:
     sdk: flutter
   waapi_flutter:
     path: ../
-  flutter_contacts: ^1.1.9
-  permission_handler: ^11.3.1
-  file_picker: ^8.1.7
+  # flutter_contacts, permission_handler, file_picker, record, path_provider, audioplayers removed per user request.
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
