@@ -1,14 +1,46 @@
 # Waapi Flutter
 
-A production-ready Flutter package for the Waapi WhatsApp Gateway API.
-Helper package to easily integrate Waapi services into your Flutter application.
+<p align="center">
+  <img src="assets/waapi.png" width="150" alt="Waapi Logo">
+</p>
+
+<p align="center">
+  <a href="https://pub.dev/packages/waapi_flutter"><img src="https://img.shields.io/pub/v/waapi_flutter.svg" alt="Pub Version"></a>
+  <a href="https://pub.dev/packages/waapi_flutter/score"><img src="https://img.shields.io/pub/points/waapi_flutter" alt="Pub Points"></a>
+  <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License"></a>
+</p>
+
+<p align="center">
+  <strong>A production-ready Flutter package for the Waapi WhatsApp Gateway API.</strong><br>
+  Send text, media, stickers, voice notes, locations, contacts, and templates with ease.
+</p>
+
+---
+
+## Platform Support
+
+| Android | iOS | Web | macOS | Windows | Linux |
+|:-------:|:---:|:---:|:-----:|:-------:|:-----:|
+|    ✅    |  ✅  |  ✅  |   ✅   |    ✅    |   ✅   |
+
+---
 
 ## Features
 
 - **Messaging**: Send text, media, stickers, voice notes, locations, contacts, and templates.
-- **Device Management**: Check device status, get QR codes, and reboot instances.
+- **Device Management**: Check device status and get QR codes.
 - **Strongly Typed**: Includes models for `WaapiResponse`, `WaapiLocation`, `WaapiContact`.
 - **Error Handling**: Centralized `WaapiException` handling.
+
+---
+
+## Screenshot
+
+<p align="center">
+  <img src="assets/waapi.png" width="200" alt="Waapi Screenshot">
+</p>
+
+---
 
 ## Installation
 
@@ -16,9 +48,15 @@ Add `waapi_flutter` to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  waapi_flutter:
-    path: ./ # Or git/pub url
+  waapi_flutter: ^0.0.1
 ```
+
+Then run:
+```bash
+flutter pub get
+```
+
+---
 
 ## Usage
 
@@ -28,7 +66,7 @@ dependencies:
 import 'package:waapi_flutter/waapi_flutter.dart';
 
 final client = WaapiClient(
-  baseUrl: 'https://waapi.octopusteam.net/api',
+  baseUrl: 'https://waapi.octopusteam.net',
   appKey: 'YOUR_APP_KEY',
   authKey: 'YOUR_AUTH_KEY',
 );
@@ -85,11 +123,11 @@ await client.sendContact(
 ### Device Management
 
 ```dart
-final status = await client.getDeviceStatus();
+final status = await client.getDeviceStatus(deviceId: 'YOUR_DEVICE_ID');
 print(status.data);
-
-await client.rebootInstance();
 ```
+
+---
 
 ## Contributing
 
