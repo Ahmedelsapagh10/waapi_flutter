@@ -1,5 +1,5 @@
 name: waapi_flutter
-description: "A Flutter package for the Waapi WhatsApp Gateway API. Send text, media, stickers, voice notes, locations, contacts, and templates."
+description: "WhatsApp Business API for Flutter. Send OTP, notifications & media via Waapi Gateway. Simple, reliable messaging SDK."
 version: 1.0.1
 homepage: https://waapi.octopusteam.net
 repository: https://github.com/octopus-software-team/waapi_flutter.git
@@ -21,14 +21,16 @@ platforms:
 # Topics for pub.dev discovery
 topics:
   - whatsapp
+  - otp
   - messaging
-  - api
-  - sms
+  - notifications
 
 # Screenshots for pub.dev
 screenshots:
   - description: 'Waapi Flutter Package Logo'
     path: assets/waapi.png
+  - description: 'Example App - WhatsApp OTP & Messaging Demo'
+    path: assets/example.png
 
 environment:
   sdk: ^3.9.2
@@ -47,3 +49,4 @@ dev_dependencies:
 flutter:
   assets:
     - assets/waapi.png
+    - assets/

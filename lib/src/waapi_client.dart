@@ -4,6 +4,100 @@ import 'exceptions.dart';
 
 /// Client to interact with the Waapi WhatsApp Gateway API.
 ///
+/// [WaapiClient] provides a simple, type-safe interface for sending WhatsApp
+/// messages, media, locations, contacts, and templates through the Waapi Gateway.
+///
+/// ## Getting Started
+///
+/// Create an instance with your API credentials:
+///
+/// ```dart
+/// final client = WaapiClient(
+///   baseUrl: 'https://waapi.octopusteam.net',
+///   appKey: 'YOUR_APP_KEY',
+///   authKey: 'YOUR_AUTH_KEY',
+/// );
+/// ```
+///
+/// ## Example: Sending a Dynamic OTP Message
+///
+/// ```dart
+/// Future<void> sendOtp(String phone, String otpCode) async {
+///   try {
+///     final response = await client.sendText(
+///       chatId: '$phone@c.us',
+///       message: '🔐 Your verification code is: $otpCode\n\nExpires in 5 minutes.',
+///     );
+///     print('OTP sent: ${response.status}');
+///   } on WaapiException catch (e) {
+///     print('Failed: ${e.message} (${e.statusCode})');
+///   }
+/// }
+/// ```
+///
+/// ## Example: Handling Multi-Part Media Uploads
+///
+/// ```dart
+/// Future<void> sendProductCatalog(String phone) async {
+///   // Send multiple product images with captions
+///   final products = [
+///     {'url': 'https://cdn.example.com/product1.jpg', 'name': 'Product A - \$99'},
+///     {'url': 'https://cdn.example.com/product2.jpg', 'name': 'Product B - \$149'},
+///     {'url': 'https://cdn.example.com/product3.jpg', 'name': 'Product C - \$199'},
+///   ];
+///
+///   for (final product in products) {
+///     await client.sendMedia(
+///       chatId: '$phone@c.us',
+///       mediaUrl: product['url']!,
+///       caption: product['name'],
+///     );
+///     // Add delay to avoid rate limiting
+///     await Future.delayed(const Duration(milliseconds: 500));
+///   }
+/// }
+/// ```
+///
+/// ## Example: Checking Instance Connection Before Sending
+///
+/// ```dart
+/// Future<bool> sendMessageSafely({
+///   required String deviceId,
+///   required String phone,
+///   required String message,
+/// }) async {
+///   // 1. Verify device is connected
+///   final status = await client.getDeviceStatus(deviceId: deviceId);
+///   if (status.status != 'success') {
+///     print('Device not connected. Scan QR code first.');
+///     return false;
+///   }
+///
+///   // 2. Send message only if connected
+///   final response = await client.sendText(
+///     chatId: '$phone@c.us',
+///     message: message,
+///   );
+///   return response.status == 'success';
+/// }
+/// ```
+///
+/// ## Custom Dio Configuration
+///
+/// For advanced use cases, pass custom [BaseOptions]:
+///
+/// ```dart
+/// final client = WaapiClient(
+///   baseUrl: 'https://waapi.octopusteam.net',
+///   appKey: 'YOUR_APP_KEY',
+///   authKey: 'YOUR_AUTH_KEY',
+///   dioOptions: BaseOptions(
+///     connectTimeout: const Duration(seconds: 30),
+///     receiveTimeout: const Duration(seconds: 30),
+///   ),
+/// );
+/// ```
+///
 /// عميل للتفاعل مع بوابة Waapi WhatsApp API.
 class WaapiClient {
   final Dio _dio;
@@ -13,15 +107,15 @@ class WaapiClient {
 
   /// Creates a new instance of [WaapiClient].
   ///
-  /// [baseUrl]: The base URL of the API (e.g., https://waapi.octopusteam.net).
-  /// [appKey]: The application key.
-  /// [authKey]: The authentication key.
+  /// Required parameters:
+  /// - [baseUrl]: The base URL of the API (e.g., `https://waapi.octopusteam.net`).
+  /// - [appKey]: Your application key from the Waapi dashboard.
+  /// - [authKey]: Your authentication key from the Waapi dashboard.
+  ///
+  /// Optional parameters:
+  /// - [dioOptions]: Custom [BaseOptions] for Dio HTTP client configuration.
   ///
   /// ينشئ نسخة جديدة من [WaapiClient].
-  ///
-  /// [baseUrl]: رابط الـ API الأساسي.
-  /// [appKey]: مفتاح التطبيق.
-  /// [authKey]: مفتاح المصادقة.
   WaapiClient({
     required this.baseUrl,
     required this.appKey,
