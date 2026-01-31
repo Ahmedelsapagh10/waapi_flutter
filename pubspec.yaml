@@ -1,6 +1,6 @@
 name: waapi_flutter
 description: "WhatsApp Business API for Flutter. Send OTP, notifications & media via Waapi Gateway. Simple, reliable messaging SDK."
-version: 1.0.2
+version: 1.0.3
 homepage: https://waapi.octopusteam.net
 repository: https://github.com/octopus-software-team/waapi_flutter.git
 issue_tracker: https://github.com/octopus-software-team/waapi_flutter/issues

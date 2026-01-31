@@ -1,7 +1,7 @@
 # Waapi Flutter
 
 <p align="center">
-  <img src="assets/waapi.png" width="150" alt="Waapi Logo">
+  <img src="https://raw.githubusercontent.com/octopus-software-team/waapi_flutter/main/assets/waapi.png" width="150" alt="Waapi Logo">
 </p>
 
 <p align="center">
@@ -25,18 +25,10 @@
 
 ---
 
-## Platform Support
-
-| Android | iOS | Web | macOS | Windows | Linux |
-|:-------:|:---:|:---:|:-----:|:-------:|:-----:|
-|    ✅    |  ✅  |  ✅  |   ✅   |    ✅    |   ✅   |
-
----
-
 ## 📱 Screenshot
 
 <p align="center">
-  <img src="assets/example.png" width="300" alt="Waapi Flutter Example App">
+  <img src="https://raw.githubusercontent.com/octopus-software-team/waapi_flutter/main/assets/example.png" width="300" alt="Waapi Flutter Example App">
 </p>
 
 ---
@@ -110,7 +102,7 @@ Add `waapi_flutter` to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  waapi_flutter: ^1.0.1
+  waapi_flutter: ^1.0.3
 ```
 
 Then run:
@@ -196,24 +188,19 @@ print('Connected: ${status.data}');
 
 ## 🧠 Pro Tips for Senior Developers
 
-### Service Locator Pattern with GetIt
+### Global Instance
 
 ```dart
-import 'package:get_it/get_it.dart';
 import 'package:waapi_flutter/waapi_flutter.dart';
 
-final getIt = GetIt.instance;
-
-void setupLocator() {
-  getIt.registerLazySingleton<WaapiClient>(() => WaapiClient(
-    baseUrl: const String.fromEnvironment('WAAPI_BASE_URL'),
-    appKey: const String.fromEnvironment('WAAPI_APP_KEY'),
-    authKey: const String.fromEnvironment('WAAPI_AUTH_KEY'),
-  ));
-}
+// Simple global instance
+final client = WaapiClient(
+  baseUrl: 'https://waapi.octopusteam.net',
+  appKey: 'YOUR_APP_KEY',
+  authKey: 'YOUR_AUTH_KEY',
+);
 
 // Usage anywhere in your app
-final client = getIt<WaapiClient>();
 await client.sendText(chatId: '...', message: '...');
 ```
 
@@ -382,7 +369,7 @@ Pull requests are welcome! For major changes, please open an issue first to disc
 ## 👨‍💻 Author
 
 <p align="center">
-  <img src="assets/me3.webp" width="120" style="border-radius: 50%;" alt="Eng Ahmed Mohamed Elsapagh">
+  <img src="https://raw.githubusercontent.com/octopus-software-team/waapi_flutter/main/assets/me3.webp" width="120" style="border-radius: 50%;" alt="Eng Ahmed Mohamed Elsapagh">
 </p>
 
 <p align="center">
