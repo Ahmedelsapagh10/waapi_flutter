@@ -1,7 +1,7 @@
 # Waapi Flutter
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/octopus-software-team/waapi_flutter/main/assets/waapi.png" width="150" alt="Waapi Logo">
+  <img src="https://raw.githubusercontent.com/Ahmedelsapagh10/waapi_flutter/main/assets/waapi.png" width="150" alt="Waapi Logo">
 </p>
 
 <p align="center">
@@ -28,7 +28,7 @@
 ## 📱 Screenshot
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/octopus-software-team/waapi_flutter/main/assets/example.png" width="300" alt="Waapi Flutter Example App">
+  <img src="https://raw.githubusercontent.com/Ahmedelsapagh10/waapi_flutter/main/assets/example.png" width="300" alt="Waapi Flutter Example App">
 </p>
 
 ---
@@ -102,7 +102,7 @@ Add `waapi_flutter` to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  waapi_flutter: ^1.0.3
+  waapi_flutter: ^1.0.4
 ```
 
 Then run:
@@ -369,7 +369,7 @@ Pull requests are welcome! For major changes, please open an issue first to disc
 ## 👨‍💻 Author
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/octopus-software-team/waapi_flutter/main/assets/me3.webp" width="120" style="border-radius: 50%;" alt="Eng Ahmed Mohamed Elsapagh">
+  <img src="https://raw.githubusercontent.com/Ahmedelsapagh10/waapi_flutter/main/assets/me3.webp" width="120" style="border-radius: 50%;" alt="Eng Ahmed Mohamed Elsapagh">
 </p>
 
 <p align="center">
