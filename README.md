@@ -379,6 +379,10 @@ Pull requests are welcome! For major changes, please open an issue first to disc
 - 🌐 **Portfolio**: [elsapagh.octopusteam.net](https://elsapagh.octopusteam.net/)
 - 💼 **Role**: Co-founder & Mobile Lead at [Octopus Team](https://octopusteam.net)
 
+### 📬 Contact Us
+- 📧 **Email**: [ahmedelsapagh@gmail.com](mailto:ahmedelsapagh@gmail.com)
+- 💬 **WhatsApp**: [+201201709414](https://wa.me/201201709414)
+
 ---
 
 ## 📄 License
