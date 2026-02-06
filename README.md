@@ -1,7 +1,7 @@
 # Waapi Flutter
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/Ahmedelsapagh10/waapi_flutter/main/assets/waapi.png" width="150" alt="Waapi Logo">
+  <img src="https://raw.githubusercontent.com/Ahmedelsapagh10/waapi_flutter/main/assets/waapi_info.png" width="100%" alt="Waapi Logo">
 </p>
 
 <p align="center">
@@ -102,7 +102,7 @@ Add `waapi_flutter` to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  waapi_flutter: ^1.0.4
+  waapi_flutter: ^1.0.6
 ```
 
 Then run:
